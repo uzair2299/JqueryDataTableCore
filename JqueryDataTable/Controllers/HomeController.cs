@@ -6,32 +6,29 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using JqueryDataTable.Models;
+using JqueryDataTable.EntityDbContext;
+using Newtonsoft.Json;
 
 namespace JqueryDataTable.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext applicationDbContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext _applicationDbContext)
         {
-            _logger = logger;
+            applicationDbContext = _applicationDbContext;
         }
 
         public IActionResult Index()
         {
             return View();
         }
-
-        public IActionResult Privacy()
+        public IActionResult GetData()
         {
-            return View();
+            List<Customer> customers = applicationDbContext.Customers.ToList();
+            return Json (new { data = customers });
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }
