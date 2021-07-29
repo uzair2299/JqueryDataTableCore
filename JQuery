@@ -8,6 +8,102 @@ $(".blue,.red") // All elements with class=blue OR class=red
 $("#headline") // The (first) element with id=headline
 $("[href]") // All elements with an href attribute
 $("[href='example.com']") // All elements with href=example.com
+--------------------------------------------------------------------------------------------------------------------------------------------
+Caching Selectors
+Each time you use a selector in jQuery the DOM is searched for elements that match your query. Doing this too
+often or repeatedly will decrease performance. If you refer to a specific selector more than once you should add it
+to the cache by assigning it to a variable:
+
+var nav = $('#navigation');
+nav.show();
+
+If there are multiple elements with the same selector the variable will become an array of these elements:
+
+<div class="parent">
+ <div class="child">Child 1</div>
+ <div class="child">Child 2</div>
+</div>
+
+<script>
+ var children = $('.child');
+ var firstChildText = children[0].text();
+ console.log(firstChildText);
+
+ // output: "Child 1"
+</script>
+--------------------------------------------------------------------------------------------------------------------------------------------
+Creating DOM elements
+
+parent.append('<div class="child">Child 1</div>');
+
+var myLink = $('<a href="http://stackexchange.com"></a>');
+
+var myLink = $('<a>', { 'href': 'http://stackexchange.com' });
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+Template Function 
+
+1.
+function template(href,text){
+return $("<div><a href='" + href + "'>" + text + "</a></div>");}
+
+Would return a jQuery object holding
+<div>
+ <a href="google.com">Google</a>
+</div>
+if called as template("google.com","Google").
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+.each() 
+
+You can stop the loop from within the callback function by returning false.
+
+$(".elements").each(function(){
+ //the current element is bound to `this` internally by jQuery when using each
+ var currentElement = this;
+ //at this point, currentElement (or this) has access to the Native API
+
+ //construct a jQuery object with the currentElement(this)
+ var $currentElement = $(this);
+ //now $currentElement has access to the jQuery API
+});
+
+<ul>
+ <li>Mango</li>
+ <li>Book</li>
+</ul>
+Script:
+$( "li" ).each(function( index ) {
+ console.log( index + ": " + $( this ).text() );
+});
+A message is thus logged for each item in the list:
+0: Mango
+1: Book
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+Table
+
+<tr id="row_1">
+ <td><button type="button" class="delete">Delete</button>
+</tr>
+
+$('.delete').click(function() {
+ $(this).closest('tr');
+})
+
+If you wanted to get the id of the row containing the Delete button that you clicked, you could so something like
+this:
+$('.delete').click(function() {
+ var $row = $(this).closest('tr');
+ var id = $row.attr('id');
+});
+
+An alternative to .closest() is the .parents() method:
+$('.delete').click(function() {
+ var $row = $(this).parents('tr');
+ var id = $row.attr('id');
+});
+
 ---------------------------------------------------------
 $('input[type=checkbox]').attr('checked');
 ---------------------------------------------------------
