@@ -214,3 +214,20 @@ $('input[type=checkbox]').attr('checked');
 $('input[type=checkbox]').prop('checked');
 // Returns true if checked, false if unchecked.
 ---------------------------------------------------------
+Check at least one checkbox is checked
+method 1
+ $("#User").find("input[name=Role]").filter(':checked').length>0
+ 
+method 2
+        var fields = $(selector).find("input[name=Role]").serializeArray();
+        if (fields.length === 0) {
+            AutoSolutionUtility.addCssClass($(selector + " #Roles"), "invalid-feedback");
+            AutoSolutionUtility.addCssClass($(selector + " #Roles"), "is-invalid");
+            $(selector + " #Roles").append(ROLEVALIDATION);
+            return false;
+        }
+        else {
+
+        }
+
+ --------------------------------------------------------------
